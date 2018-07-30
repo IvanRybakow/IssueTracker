@@ -1,6 +1,4 @@
-﻿using System;
-using IssueTracker.Common;
-using IssueTracker.Common.Models;
+﻿using IssueTracker.Common.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IssueTracker.Persistance
@@ -14,7 +12,7 @@ namespace IssueTracker.Persistance
         }
         public DbSet<IssueEntity> Issues { get; set; }
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<IssueTransitionEntity> Type { get; set; }
+        public DbSet<IssueTransitionEntity> IssueTransitions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +27,7 @@ namespace IssueTracker.Persistance
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserEntity>().Property(u => u.IsDeleted).HasDefaultValue(false);
+            modelBuilder.Entity<UserEntity>().HasAlternateKey(u => u.Login);
 
         }
 

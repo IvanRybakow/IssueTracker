@@ -7,7 +7,7 @@ namespace IssueTracker.Common.Models
     [Table("Users")]
     public class UserEntity
     {
-        [Key]
+        public int Id { get; set; }
         [Required]
         public string Login { get; set; }
         [Required]
