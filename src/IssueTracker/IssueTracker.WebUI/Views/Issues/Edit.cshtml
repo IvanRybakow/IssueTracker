@@ -1,0 +1,108 @@
+﻿@model IssueTracker.Common.Models.IssueEntity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>IssueEntity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" id="change-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" disabled />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy.FullName" class="form-control" disabled />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<IssueStatuses>()" disabled></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" class="form-control" asp-items="Html.GetEnumSelectList<IssuePriorities>()"></select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urgency" class="control-label"></label>
+                <select asp-for="Urgency" class="form-control" asp-items="Html.GetEnumSelectList<IssueUrgencies>()"></select>
+                <span asp-validation-for="Urgency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Comment</label>
+                <textarea class="form-control" name="comment" required="true"></textarea>
+            </div>
+            <div class="btn-group-lg">
+                @foreach (var item in ViewBag.PossibleActions)
+                {
+                <button class="btn btn-default command-button" id="@item">@item</button>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<table class="table table-striped">
+    <caption>Issue History</caption>
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            User
+        </th>
+        <th>
+            Action
+        </th>
+        <th>
+            Comment
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Transitions)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransitionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MadeBy.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Command)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+        </tr>
+    }
+
+</table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

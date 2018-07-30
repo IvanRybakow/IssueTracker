@@ -1,5 +1,3 @@
-using System;
-
 namespace IssueTracker.WebUI.Models
 {
     public class ErrorViewModel

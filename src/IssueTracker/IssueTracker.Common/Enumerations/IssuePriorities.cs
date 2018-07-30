@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace IssueTracker.Common.Enumerations
+﻿namespace IssueTracker.Common.Enumerations
 {
     public enum IssuePriorities
     {
