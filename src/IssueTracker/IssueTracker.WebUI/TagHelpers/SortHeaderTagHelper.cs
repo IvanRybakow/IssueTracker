@@ -8,8 +8,9 @@ namespace IssueTracker.WebUI.TagHelpers
 {
     public class SortHeaderTagHelper : TagHelper
     {
-        public IssueSortState Property { get; set; }
-        public IssueSortState Current { get; set; }
+        public SortState Property { get; set; }
+        public SortState Current { get; set; }
+        public string Filter { get; set; }
         public string Action { get; set; }
         public bool Up { get; set; }
 
@@ -27,7 +28,8 @@ namespace IssueTracker.WebUI.TagHelpers
         {
             IUrlHelper urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
-            string url = urlHelper.Action(Action, new { sortOrder = Property });
+            string url = Filter == null ? urlHelper.Action(Action, new { sortOrder = Property, isDesc = !Up }) :
+                urlHelper.Action(Action, new { sortOrder = Property, isDesc = !Up, filter = Filter });
             output.Attributes.SetAttribute("href", url);
             if (Current == Property)
             {

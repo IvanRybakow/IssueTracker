@@ -23,50 +23,32 @@ namespace IssueTracker.WebUI.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Index(IssueSortState sortOrder = IssueSortState.CreationDateDesc, bool userIssues = false)
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.Column1, bool isDesc = true,  bool filter = false)
         {
             IQueryable<IssueEntity> issues = _context.Issues.Include(i => i.CreatedBy);
-            if (userIssues)
+            if (filter)
             {
                 issues = issues.Where(i => i.CreatedBy.Login == User.Identity.Name);
             }
             switch (sortOrder)
             {
-                case IssueSortState.CreationDateAsc:
-                    issues = issues.OrderBy(i => i.CreationDate);
+                case SortState.Column1:
+                    issues = isDesc ? issues.OrderByDescending(i => i.CreationDate) : issues.OrderBy(i => i.CreationDate);
                     break;
-                case IssueSortState.CreationDateDesc:
-                    issues = issues.OrderByDescending(i => i.CreationDate);
+                case SortState.Column2:
+                    issues = isDesc ? issues.OrderByDescending(i => i.ShortDescription) : issues.OrderBy(i => i.ShortDescription);
                     break;
-                case IssueSortState.NameAsc:
-                    issues = issues.OrderBy(i => i.ShortDescription);
+                case SortState.Column3:
+                    issues = isDesc ? issues.OrderByDescending(i => i.Status) : issues.OrderBy(i => i.Status);
                     break;
-                case IssueSortState.NameDesc:
-                    issues = issues.OrderByDescending(i => i.ShortDescription);
+                case SortState.Column4:
+                    issues = isDesc ? issues.OrderByDescending(i => i.Priority) : issues.OrderBy(i => i.Priority);
                     break;
-                case IssueSortState.StatusAsc:
-                    issues = issues.OrderBy(i => i.Status);
+                case SortState.Column5:
+                    issues = isDesc ? issues.OrderByDescending(i => i.Urgency) : issues.OrderBy(i => i.Urgency);
                     break;
-                case IssueSortState.StatusDesc:
-                    issues = issues.OrderByDescending(i => i.Status);
-                    break;
-                case IssueSortState.PriorityAsc:
-                    issues = issues.OrderBy(i => i.Priority);
-                    break;
-                case IssueSortState.PriorityDesc:
-                    issues = issues.OrderByDescending(i => i.Priority);
-                    break;
-                case IssueSortState.UrgencyAsc:
-                    issues = issues.OrderBy(i => i.Urgency);
-                    break;
-                case IssueSortState.UrgencyDesc:
-                    issues = issues.OrderByDescending(i => i.Urgency);
-                    break;
-                case IssueSortState.CreatedByAsc:
-                    issues = issues.OrderBy(i => i.CreatedBy.FullName);
-                    break;
-                case IssueSortState.CreatedByDesc:
-                    issues = issues.OrderByDescending(i => i.CreatedBy.FullName);
+                case SortState.Column6:
+                    issues = isDesc ? issues.OrderByDescending(i => i.CreatedBy.FullName) : issues.OrderBy(i => i.CreatedBy.FullName);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sortOrder), sortOrder, null);
@@ -75,9 +57,10 @@ namespace IssueTracker.WebUI.Controllers
             var viewModel = new IssuesViewModel
             {
                 Issues = await issues.ToListAsync(),
-                SortModel = new IssueSortViewModel(sortOrder),
-                Caption = userIssues ? $"Issues Created By You" : "All Issues"
+                SortModel = new IssueSortViewModel(sortOrder, isDesc, filter.ToString()),
+                Caption = filter ? "Issues Created By You" : "All Issues"
             };
+                
             return View(viewModel);
         }
 

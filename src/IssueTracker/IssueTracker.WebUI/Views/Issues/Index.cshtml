@@ -1,4 +1,5 @@
-﻿@model IssuesViewModel
+﻿@using IssueTracker.WebUI.TagHelpers
+@model IssuesViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -13,32 +14,32 @@
                     <thead>
                         <tr>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.DateSort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column1" filter="@Model.SortModel.Filter">
                                     Creation Date
                                 </sort-header>
                             </th>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.NameSort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column2" filter="@Model.SortModel.Filter">
                                     Name
                                 </sort-header>
                             </th>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.StatusSort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column3" filter="@Model.SortModel.Filter">
                                     Status
                                 </sort-header>
                             </th>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.PrioritySort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column4" filter="@Model.SortModel.Filter">
                                     Priority
                                 </sort-header>
                             </th>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.UrgencySort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column5" filter="@Model.SortModel.Filter">
                                     Urgency
                                 </sort-header>
                             </th>
                             <th>
-                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@Model.SortModel.CreatedBySort">
+                                <sort-header action="Index" up="@Model.SortModel.Up" current="@Model.SortModel.Current" property="@SortState.Column6" filter="@Model.SortModel.Filter">
                                     Created By
                                 </sort-header>
                             </th>
