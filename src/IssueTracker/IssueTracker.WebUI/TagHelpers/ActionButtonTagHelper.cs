@@ -48,6 +48,7 @@ namespace IssueTracker.WebUI.TagHelpers
             output.Content.SetContent(Command.ToString());
             output.Attributes.Add("Class", $"btn btn-{className} command-button");
             output.Attributes.Add("Id", Command.ToString());
+            output.Attributes.Add("type", "button");
             TagBuilder tag = new TagBuilder("i");
             tag.AddCssClass("glyphicon");
             tag.AddCssClass(glyphicon);
