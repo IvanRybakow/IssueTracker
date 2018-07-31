@@ -4,13 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
 
-<h4>UserEntity</h4>
+<div class="captionText">Edit User</div>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-6 col-md-offset-3">
+        <form asp-action="Edit" class="border-class">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -33,9 +32,11 @@
                 <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="btn-group form-group">
+                <button type="submit" value="Save" class="btn btn-success">Save</button>
+                <button asp-action="Index" class="btn btn-warning">Back to List</button>
             </div>
+
         </form>
     </div>
 </div>

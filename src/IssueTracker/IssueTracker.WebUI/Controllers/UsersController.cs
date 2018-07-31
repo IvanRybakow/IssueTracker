@@ -6,6 +6,7 @@ using IssueTracker.Common.Models;
 using IssueTracker.Persistance;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,21 +21,18 @@ namespace IssueTracker.WebUI.Controllers
             _context = context;
         }
 
-        // GET: Users
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.Where(u => !u.IsDeleted).ToListAsync());
         }
 
-        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Login,FirstName,LastName,Password")] UserEntity userEntity)
@@ -52,7 +50,7 @@ namespace IssueTracker.WebUI.Controllers
             return View(userEntity);
         }
 
-        // GET: Users/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,9 +66,7 @@ namespace IssueTracker.WebUI.Controllers
             return View(userEntity);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,FirstName,LastName,Password")] UserEntity userEntity)
@@ -103,7 +99,7 @@ namespace IssueTracker.WebUI.Controllers
             return View(userEntity);
         }
 
-        // GET: Users/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,7 +117,7 @@ namespace IssueTracker.WebUI.Controllers
             return View(userEntity);
         }
 
-        // POST: Users/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -133,7 +129,6 @@ namespace IssueTracker.WebUI.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Users/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string login, string password)

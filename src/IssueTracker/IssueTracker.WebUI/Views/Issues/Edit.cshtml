@@ -4,23 +4,21 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
-
-<h4>IssueEntity</h4>
+<div class="captionText">Edit Issue</div>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" id="change-form">
+    <div class="col-md-6 col-md-offset-3">
+        <form asp-action="Edit" id="change-form" class="border-class">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" disabled />
+                <input asp-for="CreationDate" type="date" class="form-control" disabled/>
                 <span asp-validation-for="CreationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ShortDescription" class="control-label"></label>
-                <input asp-for="ShortDescription" class="form-control" />
+                <input asp-for="ShortDescription" class="form-control"/>
                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy.FullName" class="form-control" disabled />
+                <input asp-for="CreatedBy.FullName" class="form-control" disabled/>
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,59 +48,67 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Comment</label>
-                <textarea class="form-control" name="comment" required="true"></textarea>
+                <textarea class="form-control" name="comment" required></textarea>
             </div>
-            <div class="btn-group-lg">
+            <div class="btn-group">
                 @foreach (var item in ViewBag.PossibleActions)
                 {
-                <button class="btn btn-default command-button" id="@item">@item</button>
+                    <action-button command="@item"></action-button>
                 }
+                <a asp-action="Index" class="btn btn-warning">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Issue History</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                        <th>
+                            Comment
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.Transitions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransitionDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MadeBy.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Command)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comment)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table class="table table-striped">
-    <caption>Issue History</caption>
-    <tr>
-        <th>
-            Date
-        </th>
-        <th>
-            User
-        </th>
-        <th>
-            Action
-        </th>
-        <th>
-            Comment
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.Transitions)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransitionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MadeBy.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Command)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-        </tr>
-    }
-
-</table>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
