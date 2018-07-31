@@ -16,6 +16,7 @@ namespace IssueTracker.Common.Models
         public string LastName { get; set; }
         [NotMapped]
         public string FullName => $"{FirstName} {LastName}";
+        [Required]
         public string Password { get; set; }
         public bool IsDeleted { get; set; }
         public ICollection<IssueEntity> Issues { get; set; }

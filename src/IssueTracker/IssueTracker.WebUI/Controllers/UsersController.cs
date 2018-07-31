@@ -32,7 +32,6 @@ namespace IssueTracker.WebUI.Controllers
             return View();
         }
 
-        // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Login,FirstName,LastName,Password")] UserEntity userEntity)
@@ -123,9 +122,12 @@ namespace IssueTracker.WebUI.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userEntity = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
-            userEntity.IsDeleted = true;
-            _context.Users.Update(userEntity);
-            await _context.SaveChangesAsync();
+            if (userEntity != null)
+            {
+                userEntity.IsDeleted = true;
+                _context.Users.Update(userEntity);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -139,9 +141,6 @@ namespace IssueTracker.WebUI.Controllers
                 await Authenticate(userEntity.Login);
                 return RedirectToAction("Index", "Home");
             }
-            userEntity.IsDeleted = true;
-            _context.Users.Update(userEntity);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

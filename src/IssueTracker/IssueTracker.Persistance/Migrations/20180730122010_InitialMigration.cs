@@ -17,7 +17,7 @@ namespace IssueTracker.Persistance.Migrations
                     Login = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>

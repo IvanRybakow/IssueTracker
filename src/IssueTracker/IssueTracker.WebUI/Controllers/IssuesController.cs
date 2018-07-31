@@ -82,27 +82,6 @@ namespace IssueTracker.WebUI.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var issueEntity = await _context.Issues
-                .Include(i => i.CreatedBy)
-                .Include(i => i.Transitions)
-                .ThenInclude(t => t.MadeBy)
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (issueEntity == null)
-            {
-                return NotFound();
-            }
-
-            return View(issueEntity);
-        }
-
-        [Authorize]
         public IActionResult Create()
         {
             return View();

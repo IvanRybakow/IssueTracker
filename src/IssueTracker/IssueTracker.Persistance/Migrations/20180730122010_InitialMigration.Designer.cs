@@ -92,7 +92,8 @@ namespace IssueTracker.Persistance.Migrations
                     b.Property<string>("Login")
                         .IsRequired();
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Password")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
